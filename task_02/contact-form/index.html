@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Developer Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Design System ===== */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: var(--dark);
+            background-color: #f1f5f9;
+        }
+
+        section {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+        }
+
+        p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== Layout Components ===== */
+        .container {
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        /* ===== Navigation ===== */
+        header {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== Form Components ===== */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            transition: var(--transition);
+            background-color: #f8fafc;
+        }
+
+        .input-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: white;
+        }
+
+        textarea.input-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: flex;
+            width: 100%;
+        }
+
+        .btn-icon {
+            font-size: 1rem;
+        }
+
+        /* ===== Card Grid ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        /* ===== To-Do List ===== */
+        .todo-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #todoInput {
+            flex: 1;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .todo-item:hover {
+            transform: translateX(5px);
+        }
+
+        .todo-check {
+            margin-right: 1rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .todo-check.completed {
+            color: var(--success);
+        }
+
+        .todo-text {
+            flex: 1;
+            transition: var(--transition);
+        }
+
+        .todo-text.completed {
+            text-decoration: line-through;
+            color: var(--gray);
+            opacity: 0.7;
+        }
+
+        .todo-delete {
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .todo-delete:hover {
+            background: #fee2e2;
+            color: var(--error);
+        }
+
+        /* ===== Status Messages ===== */
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: var(--error);
+            border-left: 4px solid var(--error);
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+        }
+
+        /* ===== Progress Indicator ===== */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(20px); }
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .todo-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 2rem 1rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <i class="fas fa-code logo-icon"></i>
+                <span>DevDashboard</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="#features" class="nav-link"><i class="fas fa-star"></i> Features</a></li>
+                <li><a href="#todo" class="nav-link"><i class="fas fa-check-circle"></i> Tasks</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contact Form -->
+    <section id="contact">
+        <h1>Get In Touch</h1>
+        <p>Have a project in mind? Send me a message and let's collaborate.</p>
+        
+        <div class="container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="input-control" placeholder="Your name" required>
+                    <div id="nameError" class="alert alert-error" style="display: none;">
+                        <i class="fas fa-exclamation-circle alert-icon"></i>
+                        <span>Please enter your name</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="input-control" placeholder="your@email.com" required>
+                    <div id="emailError" class="alert alert-error" style="display: none;">
+                        <i class="fas fa-exclamation-circle alert-icon"></i>
+                        <span>Please enter a valid email</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" class="input-control" placeholder="Tell me about your project..." required></textarea>
+                    <div id="messageError" class="alert alert-error" style="display: none;">
+                        <i class="fas fa-exclamation-circle alert-icon"></i>
+                        <span>Please enter your message</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-block">
+                    <i class="fas fa-paper-plane btn-icon"></i>
+                    Send Message
+                </button>
+                
+                <div id="successMessage" class="alert alert-success" style="display: none; margin-top: 1.5rem;">
+                    <i class="fas fa-check-circle alert-icon"></i>
+                    <span>Your message has been sent successfully!</span>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features">
+        <h1>Key Features</h1>
+        <p>Modern web development solutions tailored to your needs.</p>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-mobile-alt card-icon"></i>
+                    <h3 class="card-title">Responsive Design</h3>
+                </div>
+                <div class="card-body">
+                    <p>Fully responsive layouts that adapt to any device, ensuring optimal viewing experience across all platforms.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-bolt card-icon"></i>
+                    <h3 class="card-title">Fast Performance</h3>
+                </div>
+                <div class="card-body">
+                    <p>Optimized code and assets for lightning-fast load times and smooth interactions.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-code card-icon"></i>
+                    <h3 class="card-title">Clean Code</h3>
+                </div>
+                <div class="card-body">
+                    <p>Semantic, well-structured code following best practices for maintainability and scalability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- To-Do List -->
+    <section id="todo">
+        <h1>Task Manager</h1>
+        <p>Organize your workflow with this interactive task list.</p>
+        
+        <div class="container">
+            <div class="todo-header">
+                <input type="text" id="todoInput" class="input-control" placeholder="Add a new task...">
+                <button id="addBtn" class="btn">
+                    <i class="fas fa-plus btn-icon"></i>
+                    Add
+                </button>
+            </div>
+            
+            <ul id="todoList" class="todo-list"></ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--dark); color: white; text-align: center; padding: 2rem; margin-top: 3rem;">
+        <p>&copy; 2023 Developer Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // ===== Scroll Progress Indicator =====
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        });
+
+        // ===== Smooth Scrolling =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // ===== Contact Form Validation =====
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            resetErrors();
+            
+            let isValid = true;
+            
+            // Name validation
+            if (name === '') {
+                document.getElementById('nameError').style.display = 'flex';
+                isValid = false;
+            }
+            
+            // Email validation
+            if (email === '') {
+                document.getElementById('emailError').style.display = 'flex';
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                document.getElementById('emailError').querySelector('span').textContent = 'Please enter a valid email';
+                document.getElementById('emailError').style.display = 'flex';
+                isValid = false;
+            }
+            
+            // Message validation
+            if (message === '') {
+                document.getElementById('messageError').style.display = 'flex';
+                isValid = false;
+            }
+            
+            // Form submission
+            if (isValid) {
+                // Simulate form submission
+                document.getElementById('successMessage').style.display = 'flex';
+                contactForm.reset();
+                
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        function resetErrors() {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.display = 'none';
+            });
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // ===== To-Do List Functionality =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const todoInput = document.getElementById('todoInput');
+            const addBtn = document.getElementById('addBtn');
+            const todoList = document.getElementById('todoList');
+            
+            loadTodos();
+            
+            addBtn.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTodo();
+            });
+            
+            function addTodo() {
+                const task = todoInput.value.trim();
+                if (task !== '') {
+                    const li = document.createElement('li');
+                    li.className = 'todo-item';
+                    
+                    const check = document.createElement('span');
+                    check.className = 'todo-check';
+                    check.innerHTML = '<i class="far fa-circle"></i>';
+                    check.addEventListener('click', toggleComplete);
+                    
+                    const text = document.createElement('span');
+                    text.className = 'todo-text';
+                    text.textContent = task;
+                    
+                    const del = document.createElement('span');
+                    del.className = 'todo-delete';
+                    del.innerHTML = '<i class="fas fa-trash"></i>';
+                    del.addEventListener('click', deleteTodo);
+                    
+                    li.appendChild(check);
+                    li.appendChild(text);
+                    li.appendChild(del);
+                    todoList.appendChild(li);
+                    
+                    todoInput.value = '';
+                    saveTodos();
+                }
+            }
+            
+            function toggleComplete(e) {
+                const check = e.currentTarget;
+                const item = check.parentElement;
+                const text = item.querySelector('.todo-text');
+                
+                check.classList.toggle('completed');
+                check.innerHTML = check.classList.contains('completed') ? 
+                    '<i class="fas fa-check-circle"></i>' : 
+                    '<i class="far fa-circle"></i>';
+                
+                text.classList.toggle('completed');
+                saveTodos();
+            }
+            
+            function deleteTodo(e) {
+                const item = e.currentTarget.parentElement;
+                item.classList.add('fade-out');
+                setTimeout(() => {
+                    item.remove();
+                    saveTodos();
+                }, 300);
+            }
+            
+            function saveTodos() {
+                const todos = [];
+                document.querySelectorAll('.todo-item').forEach(item => {
+                    todos.push({
+                        text: item.querySelector('.todo-text').textContent,
+                        completed: item.querySelector('.todo-check').classList.contains('completed')
+                    });
+                });
+                localStorage.setItem('todos', JSON.stringify(todos));
+            }
+            
+            function loadTodos() {
+                const savedTodos = localStorage.getItem('todos');
+                if (savedTodos) {
+                    const todos = JSON.parse(savedTodos);
+                    todos.forEach(todo => {
+                        const li = document.createElement('li');
+                        li.className = 'todo-item';
+                        
+                        const check = document.createElement('span');
+                        check.className = todo.completed ? 'todo-check completed' : 'todo-check';
+                        check.innerHTML = todo.completed ? 
+                            '<i class="fas fa-check-circle"></i>' : 
+                            '<i class="far fa-circle"></i>';
+                        check.addEventListener('click', toggleComplete);
+                        
+                        const text = document.createElement('span');
+                        text.className = todo.completed ? 'todo-text completed' : 'todo-text';
+                        text.textContent = todo.text;
+                        
+                        const del = document.createElement('span');
+                        del.className = 'todo-delete';
+                        del.innerHTML = '<i class="fas fa-trash"></i>';
+                        del.addEventListener('click', deleteTodo);
+                        
+                        li.appendChild(check);
+                        li.appendChild(text);
+                        li.appendChild(del);
+                        todoList.appendChild(li);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
