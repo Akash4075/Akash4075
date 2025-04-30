@@ -73,9 +73,30 @@ function loadWasteItems() {
       <p>Amount: ${waste.amount}</p>
       <p>Contact: ${waste.contact}</p>
       <p>Status: <strong style="color: ${waste.booked ? 'red' : 'green'}">${waste.booked ? 'Booked' : 'Available'}</strong></p>
+      <button onclick="deleteWaste(${index})" style="margin-top: 10px; background-color: red; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
     `;
     container.appendChild(div);
   });
+}
+
+// Delete waste
+function deleteWaste(index) {
+  let wastes = JSON.parse(localStorage.getItem("wastes")) || [];
+  const userWastes = wastes.filter(w => w.userId === loggedNumber);
+
+  const actualWaste = userWastes[index];
+  const actualIndex = wastes.findIndex(w =>
+    w.userId === loggedNumber &&
+    w.name === actualWaste.name &&
+    w.amount === actualWaste.amount &&
+    w.contact === actualWaste.contact
+  );
+
+  if (actualIndex !== -1) {
+    wastes.splice(actualIndex, 1);
+    localStorage.setItem("wastes", JSON.stringify(wastes));
+    loadWasteItems();
+  }
 }
 
 // Go back
