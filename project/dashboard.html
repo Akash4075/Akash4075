@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgriRent - Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e0f7f4;
+    }
+
+    .top-bar {
+      background-color: #30d5c8;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    h2 {
+      color: #20b2aa;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      margin: 15px;
+      background-color: #20b2aa;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #178f86;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c;
+      margin-top: 40px;
+    }
+
+    .back-btn {
+      background-color: #e67e22;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <h1>Welcome to AgriRent</h1>
+    <p id="userName">Loading...</p>
+  </div>
+
+  <div class="container">
+
+    <!-- Role Selection -->
+    <div id="roleSelection">
+      <h2>Select Your Role</h2>
+      <button class="btn" onclick="showFarmerOptions()">seller</button>
+      <button class="btn" onclick="showVendorOptions()">buyer/renter</button>
+    </div>
+
+    <!-- Farmer Options -->
+    <div id="farmerOptions" class="hidden">
+      <h2>What would you like to do?</h2>
+      <button class="btn" onclick="goTo('rent.html')">Rent Your Equipment</button>
+      <button class="btn" onclick="goTo('sell-waste.html')">Sell Agricultural Waste</button>
+      <button class="btn" onclick="goTo('sell-compost.html')">Sell Compost</button>
+      <br>
+      <button class="btn back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- Vendor Options -->
+    <div id="vendorOptions" class="hidden">
+      <h2>What would you like to do?</h2>
+      <button class="btn" onclick="goTo('view-rent.html')">Take Rent</button>
+      <button class="btn" onclick="goTo('view-waste.html')">Buy Agri Waste</button>
+      <button class="btn" onclick="goTo('view-compost.html')">Buy Compost</button>
+      <br>
+      <button class="btn back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- Logout -->
+    <button class="btn logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    // Check login
+    const loggedNumber = localStorage.getItem('loggedInUser');
+    if (!loggedNumber) {
+      window.location.href = 'login.html';
+    } else {
+      const user = JSON.parse(localStorage.getItem('user_' + loggedNumber));
+      document.getElementById('userName').innerText = `Hello, ${user.name} (${user.number})`;
+    }
+
+    function goTo(page) {
+      window.location.href = page;
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    }
+
+    function showFarmerOptions() {
+      document.getElementById('roleSelection').classList.add('hidden');
+      document.getElementById('farmerOptions').classList.remove('hidden');
+    }
+
+    function showVendorOptions() {
+      document.getElementById('roleSelection').classList.add('hidden');
+      document.getElementById('vendorOptions').classList.remove('hidden');
+    }
+
+    function goBack() {
+      document.getElementById('farmerOptions').classList.add('hidden');
+      document.getElementById('vendorOptions').classList.add('hidden');
+      document.getElementById('roleSelection').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

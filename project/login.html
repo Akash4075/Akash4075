@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - AgriRent</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e0f7f4;
+    }
+
+    .top-bar {
+      background-color: #30d5c8;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h2 {
+      margin-bottom: 20px;
+      color: #20b2aa;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #20b2aa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #178f86;
+    }
+
+    .link-btn {
+      margin-top: 15px;
+      background: none;
+      color: #20b2aa;
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <h1>AgriRent Login</h1>
+  </div>
+
+  <div class="container">
+    <h2>Login to Your Account</h2>
+    <input type="text" id="loginNumber" placeholder="Phone Number" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <button onclick="loginUser()">Login</button>
+    <button class="link-btn" onclick="goToSignup()">Create a New Account</button>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

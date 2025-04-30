@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rent Your Equipment - AgriRent</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e0f7f4;
+    }
+
+    .top-bar {
+      background-color: #30d5c8;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #20b2aa;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background-color: #20b2aa;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #178f86;
+    }
+
+    .back-btn {
+      margin-top: 10px;
+      background-color: #e67e22;
+    }
+
+    .dashboard {
+      margin-top: 40px;
+    }
+
+    .item {
+      background: #f2f2f2;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+    }
+
+    .item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    .item p {
+      margin: 5px 0;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <h1>AgriRent - Rent Your Equipment</h1>
+  </div>
+
+  <div class="container">
+    <h2>Fill Equipment Details</h2>
+    <form id="rentForm">
+      <label for="name">Equipment Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="amount">Price Per Day (in ₹):</label>
+      <input type="number" id="amount" required>
+
+      <label for="contact">Contact Number:</label>
+      <input type="text" id="contact" required>
+
+      <label for="photo">Upload Photo:</label>
+      <input type="file" id="photo" accept="image/*" required>
+
+      <button type="submit">Add Equipment</button>
+    </form>
+
+    <button class="back-btn" onclick="goBack()">Back</button>
+
+    <div class="dashboard">
+      <h2>Your Equipment Listings</h2>
+      <div id="rentList"></div>
+    </div>
+  </div>
+
+  <script src="rent.js"></script>
+</body>
+</html>

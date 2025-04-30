@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sell Compost</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #e6f9f8;
+    }
+
+    .header {
+      background-color: #20cbb5;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      background-color: #20cbb5;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    #compostList {
+      margin-top: 40px;
+      padding: 10px 20px;
+    }
+
+    .item {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .item img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+
+    #userName {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Sell Compost</div>
+  <div id="userName"></div>
+
+  <div class="container">
+    <input type="text" id="compostName" placeholder="Compost Name" />
+    <input type="text" id="compostAmount" placeholder="Amount (kg)" />
+    <input type="text" id="compostContact" placeholder="Contact Number" />
+    <input type="file" id="compostPhoto" accept="image/*" />
+    <button onclick="addCompost()">Add Compost</button>
+  </div>
+
+  <div id="compostList">
+    <h2>My Compost Dashboard</h2>
+    <!-- Items will be loaded here dynamically -->
+  </div>
+
+  <script src="sell-compost.js"></script>
+</body>
+</html>
