@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Web Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* ===== RESPONSIVE DESIGN SECTION ===== */
+        #responsive-section {
+            border-left: 5px solid var(--primary);
+        }
+        
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .responsive-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .responsive-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .responsive-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .responsive-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .responsive-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* ===== QUIZ SECTION ===== */
+        #quiz-section {
+            border-left: 5px solid var(--accent);
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .score {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .question-container {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .option-btn {
+            padding: 0.8rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+        
+        .option-btn.correct {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        
+        .option-btn.wrong {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+        
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        
+        .quiz-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .quiz-btn:hover:not(:disabled) {
+            background: var(--secondary);
+        }
+        
+        .quiz-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .result-container h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* ===== API SECTION ===== */
+        #api-section {
+            border-left: 5px solid var(--success);
+        }
+        
+        .api-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        #city-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        #fetch-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        #fetch-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .weather-display {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .weather-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .weather-main {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .weather-icon {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .detail-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            padding: 1rem;
+            background: #ffe3e3;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-laptop-code"></i> Advanced Web Projects</h1>
+        
+        <!-- Responsive Design Section -->
+        <section id="responsive-section">
+            <h2><i class="fas fa-mobile-alt"></i> Responsive Design</h2>
+            <p>This layout adapts to different screen sizes using CSS media queries.</p>
+            
+            <div class="responsive-grid">
+                <div class="responsive-card">
+                    <i class="fas fa-desktop"></i>
+                    <h3>Desktop</h3>
+                    <p>4 columns on large screens</p>
+                </div>
+                <div class="responsive-card">
+                    <i class="fas fa-tablet-alt"></i>
+                    <h3>Tablet</h3>
+                    <p>2 columns on medium screens</p>
+                </div>
+                <div class="responsive-card">
+                    <i class="fas fa-mobile"></i>
+                    <h3>Mobile</h3>
+                    <p>1 column on small screens</p>
+                </div>
+                <div class="responsive-card">
+                    <i class="fas fa-magic"></i>
+                    <h3>Flexible</h3>
+                    <p>Adapts to all devices</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Quiz Section -->
+        <section id="quiz-section">
+            <h2><i class="fas fa-question-circle"></i> Interactive Quiz</h2>
+            <p>Test your web development knowledge with this JavaScript quiz.</p>
+            
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h3>Web Development Quiz</h3>
+                    <div class="score">Score: <span id="score">0</span></div>
+                </div>
+                
+                <div class="question-container">
+                    <div id="question">Loading question...</div>
+                    <div class="options-container" id="options">
+                        <!-- Options will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button class="quiz-btn" id="prev-btn" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="quiz-btn" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+                
+                <div class="result-container" id="result">
+                    <h3>Quiz Completed!</h3>
+                    <p>Your final score is <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
+                    <button class="quiz-btn" id="restart-btn"><i class="fas fa-redo"></i> Try Again</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- API Section -->
+        <section id="api-section">
+            <h2><i class="fas fa-cloud-sun"></i> Weather API</h2>
+            <p>Fetch real-time weather data from an API (simulated in this example).</p>
+            
+            <div class="api-controls">
+                <input type="text" id="city-input" placeholder="Enter a city name">
+                <button id="fetch-btn"><i class="fas fa-search"></i> Get Weather</button>
+            </div>
+            
+            <div class="error-message" id="error-message"></div>
+            
+            <div class="weather-display" id="weather-display">
+                <div class="weather-header">
+                    <h3 id="city-name">City Name</h3>
+                    <div id="weather-condition">Sunny</div>
+                </div>
+                
+                <div class="weather-main">
+                    <img id="weather-icon" class="weather-icon" src="" alt="Weather icon">
+                    <div class="weather-temp"><span id="temperature">24</span>°C</div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <i class="fas fa-tint"></i>
+                        <p>Humidity</p>
+                        <p><span id="humidity">65</span>%</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-wind"></i>
+                        <p>Wind</p>
+                        <p><span id="wind-speed">12</span> km/h</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-temperature-low"></i>
+                        <p>Feels Like</p>
+                        <p><span id="feels-like">26</span>°C</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-compress-alt"></i>
+                        <p>Pressure</p>
+                        <p><span id="pressure">1012</span> hPa</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ===== QUIZ FUNCTIONALITY =====
+        const quizData = [
+            {
+                question: "What does CSS stand for?",
+                options: [
+                    "Computer Style Sheets",
+                    "Creative Style Sheets",
+                    "Cascading Style Sheets",
+                    "Colorful Style Sheets"
+                ],
+                answer: 2
+            },
+            {
+                question: "Which HTML attribute is used to define inline styles?",
+                options: [
+                    "class",
+                    "font",
+                    "styles",
+                    "style"
+                ],
+                answer: 3
+            },
+            {
+                question: "How do you select an element with id 'demo' in CSS?",
+                options: [
+                    ".demo",
+                    "#demo",
+                    "demo",
+                    "*demo"
+                ],
+                answer: 1
+            },
+            {
+                question: "Which property is used to change the background color?",
+                options: [
+                    "color",
+                    "bgcolor",
+                    "background-color",
+                    "bg-color"
+                ],
+                answer: 2
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const scoreEl = document.getElementById('score');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const resultEl = document.getElementById('result');
+        const finalScoreEl = document.getElementById('final-score');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        function loadQuestion() {
+            const currentQuizData = quizData[currentQuestion];
+            questionEl.textContent = currentQuizData.question;
+            
+            optionsEl.innerHTML = '';
+            currentQuizData.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-btn');
+                button.addEventListener('click', () => selectOption(index));
+                optionsEl.appendChild(button);
+            });
+            
+            updateNavigation();
+        }
+        
+        function selectOption(index) {
+            selectedOption = index;
+            const optionBtns = document.querySelectorAll('.option-btn');
+            
+            // Disable all options after selection
+            optionBtns.forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            // Highlight selected option
+            const selectedBtn = optionBtns[index];
+            const correctAnswer = quizData[currentQuestion].answer;
+            
+            if (index === correctAnswer) {
+                selectedBtn.classList.add('correct');
+                score++;
+                scoreEl.textContent = score;
+            } else {
+                selectedBtn.classList.add('wrong');
+                optionBtns[correctAnswer].classList.add('correct');
+            }
+            
+            nextBtn.disabled = false;
+        }
+        
+        function updateNavigation() {
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = selectedOption === null && currentQuestion !== 0;
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.textContent = 'Finish';
+            } else {
+                nextBtn.textContent = 'Next';
+            }
+        }
+        
+        function showResult() {
+            questionEl.style.display = 'none';
+            optionsEl.style.display = 'none';
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            
+            finalScoreEl.textContent = score;
+            totalQuestionsEl.textContent = quizData.length;
+            resultEl.style.display = 'block';
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            scoreEl.textContent = score;
+            
+            questionEl.style.display = 'block';
+            optionsEl.style.display = 'grid';
+            prevBtn.style.display = 'block';
+            nextBtn.style.display = 'block';
+            resultEl.style.display = 'none';
+            
+            // Reset all option buttons
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach(btn => {
+                btn.classList.remove('correct', 'wrong');
+                btn.disabled = false;
+            });
+            
+            loadQuestion();
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            currentQuestion--;
+            selectedOption = null;
+            loadQuestion();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                selectedOption = null;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        });
+        
+        restartBtn.addEventListener('click', restartQuiz);
+        
+        // Initialize quiz
+        loadQuestion();
+        
+        // ===== WEATHER API FUNCTIONALITY =====
+        const cityInput = document.getElementById('city-input');
+        const fetchBtn = document.getElementById('fetch-btn');
+        const weatherDisplay = document.getElementById('weather-display');
+        const errorMessage = document.getElementById('error-message');
+        const cityName = document.getElementById('city-name');
+        const temperature = document.getElementById('temperature');
+        const weatherCondition = document.getElementById('weather-condition');
+        const humidity = document.getElementById('humidity');
+        const windSpeed = document.getElementById('wind-speed');
+        const feelsLike = document.getElementById('feels-like');
+        const pressure = document.getElementById('pressure');
+        const weatherIcon = document.getElementById('weather-icon');
+        
+        // Mock weather data (in a real app, you'd fetch from an API)
+        const mockWeatherData = {
+            "london": {
+                name: "London",
+                temp: 18,
+                condition: "Cloudy",
+                humidity: 75,
+                wind: 12,
+                feels_like: 16,
+                pressure: 1012,
+                icon: "04d"
+            },
+            "paris": {
+                name: "Paris",
+                temp: 22,
+                condition: "Sunny",
+                humidity: 50,
+                wind: 8,
+                feels_like: 24,
+                pressure: 1015,
+                icon: "01d"
+            },
+            "new york": {
+                name: "New York",
+                temp: 15,
+                condition: "Rainy",
+                humidity: 80,
+                wind: 15,
+                feels_like: 12,
+                pressure: 1008,
+                icon: "10d"
+            }
+        };
+        
+        function fetchWeather() {
+            const city = cityInput.value.trim().toLowerCase();
+            
+            if (!city) {
+                showError("Please enter a city name");
+                return;
+            }
+            
+            // Simulate API call with timeout
+            fetchBtn.disabled = true;
+            fetchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            
+            setTimeout(() => {
+                if (mockWeatherData[city]) {
+                    displayWeather(mockWeatherData[city]);
+                } else {
+                    showError("City not found. Try London, Paris, or New York.");
+                }
+                
+                fetchBtn.disabled = false;
+                fetchBtn.innerHTML = '<i class="fas fa-search"></i> Get Weather';
+            }, 1000);
+        }
+        
+        function displayWeather(data) {
+            errorMessage.style.display = 'none';
+            
+            cityName.textContent = data.name;
+            temperature.textContent = data.temp;
+            weatherCondition.textContent = data.condition;
+            humidity.textContent = data.humidity;
+            windSpeed.textContent = data.wind;
+            feelsLike.textContent = data.feels_like;
+            pressure.textContent = data.pressure;
+            
+            // Set weather icon (using OpenWeatherMap icon system)
+            weatherIcon.src = `https://openweathermap.org/img/wn/${data.icon}@2x.png`;
+            weatherIcon.alt = data.condition;
+            
+            weatherDisplay.style.display = 'block';
+        }
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            weatherDisplay.style.display = 'none';
+        }
+        
+        fetchBtn.addEventListener('click', fetchWeather);
+        cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') fetchWeather();
+        });
+    </script>
+</body>
+</html>
