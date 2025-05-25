@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Entry Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .overlay {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            color: white;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            background: white;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+        
+        .next-btn {
+            display: block;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex: 1;
+            text-align: center;
+        }
+        
+        .next-btn:hover {
+            background: #0d9f6e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .patient-id-display {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+            display: none;
+        }
+        
+        .patient-id-display h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .patient-id {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .voice-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            z-index: 100;
+            border: none;
+        }
+        
+        .voice-assistant:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        
+        .voice-assistant svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .voice-assistant {
+                width: 60px;
+                height: 60px;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="header">
+            <a href="index.html" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span id="back-text">Back</span>
+            </a>
+            <h1 id="page-title">Patient Entry Form</h1>
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="form-container">
+            <form id="patient-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label id="name-label">Full Name</label>
+                        <input type="text" id="patient-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="phone-label">Phone Number</label>
+                        <input type="tel" id="patient-phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label id="age-label">Age</label>
+                        <input type="number" id="patient-age" required min="0" max="120">
+                    </div>
+                    <div class="form-group">
+                        <label id="gender-label">Gender</label>
+                        <select id="patient-gender" required>
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label id="address-label">Address</label>
+                    <input type="text" id="patient-address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label id="complaint-label">Medical Complaint</label>
+                    <input type="text" id="patient-complaint" required>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="next-btn" id="save-btn">Save Details</button>
+                    <button type="submit" class="next-btn" id="next-btn">Next</button>
+                </div>
+            </form>
+            
+            <div class="patient-id-display" id="patient-id-display">
+                <h3 id="id-message">Your Patient ID</h3>
+                <div class="patient-id" id="patient-id"></div>
+                <p id="id-instruction">Please note this ID for future reference</p>
+            </div>
+        </div>
+        
+        <button class="voice-assistant pulse" id="voice-assistant">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Language support
+        const translations = {
+            en: {
+                title: "Patient Entry Form",
+                name: "Full Name",
+                phone: "Phone Number",
+                age: "Age",
+                gender: "Gender",
+                address: "Address",
+                complaint: "Medical Complaint",
+                save: "Save Details",
+                next: "Next",
+                idMessage: "Your Patient ID",
+                idInstruction: "Please note this ID for future reference",
+                genderOptions: ["Select", "Male", "Female", "Other"],
+                voice: {
+                    greeting: "Please fill in your details. Starting with your full name.",
+                    name: "Please enter your full name",
+                    phone: "Now please enter your phone number",
+                    age: "What is your age?",
+                    gender: "Please select your gender",
+                    address: "Now enter your full address",
+                    complaint: "Finally, describe your medical complaint",
+                    save: "Press save to store your details",
+                    next: "Press next to continue to disease selection",
+                    success: "Registration successful. Your patient ID is"
+                }
+            },
+            kn: {
+                title: "ರೋಗಿಯ ಪ್ರವೇಶ ಫಾರ್ಮ್",
+                name: "ಪೂರ್ಣ ಹೆಸರು",
+                phone: "ಫೋನ್ ಸಂಖ್ಯೆ",
+                age: "ವಯಸ್ಸು",
+                gender: "ಲಿಂಗ",
+                address: "ವಿಳಾಸ",
+                complaint: "ವೈದ್ಯಕೀಯ ದೂರು",
+                save: "ವಿವರಗಳನ್ನು ಉಳಿಸಿ",
+                next: "ಮುಂದೆ",
+                idMessage: "ನಿಮ್ಮ ರೋಗಿ ID",
+                idInstruction: "ಭವಿಷ್ಯದ ಉಲ್ಲೇಖಕ್ಕಾಗಿ ಈ ID ಅನ್ನು ಗಮನಿಸಿ",
+                genderOptions: ["ಆಯ್ಕೆಮಾಡಿ", "ಪುರುಷ", "ಸ್ತ್ರೀ", "ಇತರೆ"],
+                voice: {
+                    greeting: "ದಯವಿಟ್ಟು ನಿಮ್ಮ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ. ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರಿನೊಂದಿಗೆ ಪ್ರಾರಂಭಿಸಿ.",
+                    name: "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+                    phone: "ಈಗ ದಯವಿಟ್ಟು ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+                    age: "ನಿಮ್ಮ ವಯಸ್ಸು ಎಷ್ಟು?",
+                    gender: "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಲಿಂಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+                    address: "ಈಗ ನಿಮ್ಮ ಪೂರ್ಣ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
+                    complaint: "ಅಂತಿಮವಾಗಿ, ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ದೂರನ್ನು ವಿವರಿಸಿ",
+                    save: "ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಉಳಿಸಲು ಸೇವ್ ಬಟನ್ ಒತ್ತಿರಿ",
+                    next: "ರೋಗದ ಆಯ್ಕೆಗೆ ಮುಂದುವರಿಯಲು ನೆಕ್ಸ್ಟ್ ಬಟನ್ ಒತ್ತಿರಿ",
+                    success: "ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ನಿಮ್ಮ ರೋಗಿ ID ಆಗಿದೆ"
+                }
+            },
+            hi: {
+                title: "रोगी प्रवेश फॉर्म",
+                name: "पूरा नाम",
+                phone: "फोन नंबर",
+                age: "उम्र",
+                gender: "लिंग",
+                address: "पता",
+                complaint: "चिकित्सा शिकायत",
+                save: "विवर सहेजें",
+                next: "आगे",
+                idMessage: "आपका रोगी आईडी",
+                idInstruction: "भविष्य के संदर्भ के लिए कृपया इस आईडी को नोट कर लें",
+                genderOptions: ["चुनें", "पुरुष", "महिला", "अन्य"],
+                voice: {
+                    greeting: "कृपया अपना विवरण भरें। अपने पूरे नाम से शुरू करें।",
+                    name: "कृपया अपना पूरा नाम दर्ज करें",
+                    phone: "अब कृपया अपना फोन नंबर दर्ज करें",
+                    age: "आपकी उम्र क्या है?",
+                    gender: "कृपया अपना लिंग चुनें",
+                    address: "अब अपना पूरा पता दर्ज करें",
+                    complaint: "अंत में, अपनी चिकित्सा शिकायत का वर्णन करें",
+                    save: "अपना विवरण सहेजने के लिए सेव बटन दबाएं",
+                    next: "रोग चयन के लिए आगे बढ़ने के लिए नेक्स्ट बटन दबाएं",
+                    success: "पंजीकरण सफल रहा। आपका रोगी आईडी है"
+                }
+            }
+        };
+
+        // Get language from URL parameter or default to English
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang') || 'en';
+        const currentLang = translations[lang] || translations.en;
+
+        // Apply translations
+        document.getElementById('page-title').textContent = currentLang.title;
+        document.getElementById('back-text').textContent = currentLang.back || "Back";
+        document.getElementById('name-label').textContent = currentLang.name;
+        document.getElementById('phone-label').textContent = currentLang.phone;
+        document.getElementById('age-label').textContent = currentLang.age;
+        document.getElementById('gender-label').textContent = currentLang.gender;
+        document.getElementById('address-label').textContent = currentLang.address;
+        document.getElementById('complaint-label').textContent = currentLang.complaint;
+        document.getElementById('save-btn').textContent = currentLang.save;
+        document.getElementById('next-btn').textContent = currentLang.next;
+        document.getElementById('id-message').textContent = currentLang.idMessage;
+        document.getElementById('id-instruction').textContent = currentLang.idInstruction;
+
+        // Update gender options
+        const genderSelect = document.getElementById('patient-gender');
+        genderSelect.innerHTML = '';
+        currentLang.genderOptions.forEach((option, index) => {
+            const opt = document.createElement('option');
+            opt.value = index === 0 ? '' : option;
+            opt.textContent = option;
+            genderSelect.appendChild(opt);
+        });
+
+        // Patient data storage
+        let patientData = JSON.parse(localStorage.getItem('patientData') || '[]');
+        
+        // Generate patient ID
+        function generatePatientId() {
+            const prefix = 'PID';
+            const randomNum = Math.floor(10000 + Math.random() * 90000);
+            return `${prefix}${randomNum}`;
+        }
+        
+        // Save to Excel
+        function saveToExcel(data) {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, "Patients");
+            XLSX.writeFile(wb, "patient_records.xlsx");
+        }
+        
+        // Voice assistant functionality
+        const voiceAssistant = document.getElementById('voice-assistant');
+        const speech = window.speechSynthesis;
+        let currentField = 'name';
+        
+        function speakMessage(message, langCode) {
+            speech.cancel();
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = message;
+            utterance.lang = langCode || (lang === 'en' ? 'en-US' : lang === 'kn' ? 'kn-IN' : 'hi-IN');
+            utterance.rate = 0.9;
+            voiceAssistant.classList.add('pulse');
+            utterance.onend = () => voiceAssistant.classList.remove('pulse');
+            speech.speak(utterance);
+        }
+        
+        function guideThroughForm() {
+            switch(currentField) {
+                case 'name':
+                    speakMessage(currentLang.voice.name);
+                    document.getElementById('patient-name').focus();
+                    break;
+                case 'phone':
+                    speakMessage(currentLang.voice.phone);
+                    document.getElementById('patient-phone').focus();
+                    break;
+                case 'age':
+                    speakMessage(currentLang.voice.age);
+                    document.getElementById('patient-age').focus();
+                    break;
+                case 'gender':
+                    speakMessage(currentLang.voice.gender);
+                    document.getElementById('patient-gender').focus();
+                    break;
+                case 'address':
+                    speakMessage(currentLang.voice.address);
+                    document.getElementById('patient-address').focus();
+                    break;
+                case 'complaint':
+                    speakMessage(currentLang.voice.complaint);
+                    document.getElementById('patient-complaint').focus();
+                    break;
+                case 'save':
+                    speakMessage(currentLang.voice.save);
+                    break;
+                case 'next':
+                    speakMessage(currentLang.voice.next);
+                    break;
+            }
+        }
+        
+        // Form field focus events
+        document.getElementById('patient-name').addEventListener('focus', () => currentField = 'name');
+        document.getElementById('patient-phone').addEventListener('focus', () => currentField = 'phone');
+        document.getElementById('patient-age').addEventListener('focus', () => currentField = 'age');
+        document.getElementById('patient-gender').addEventListener('focus', () => currentField = 'gender');
+        document.getElementById('patient-address').addEventListener('focus', () => currentField = 'address');
+        document.getElementById('patient-complaint').addEventListener('focus', () => currentField = 'complaint');
+        document.getElementById('save-btn').addEventListener('focus', () => currentField = 'save');
+        document.getElementById('next-btn').addEventListener('focus', () => currentField = 'next');
+        
+        // Voice assistant click handler
+        voiceAssistant.addEventListener('click', function() {
+            guideThroughForm();
+        });
+        
+        // Save patient data
+        function savePatientData() {
+            const patientId = document.getElementById('patient-id').textContent || generatePatientId();
+            const patient = {
+                id: patientId,
+                name: document.getElementById('patient-name').value,
+                phone: document.getElementById('patient-phone').value,
+                age: document.getElementById('patient-age').value,
+                gender: document.getElementById('patient-gender').value,
+                address: document.getElementById('patient-address').value,
+                complaint: document.getElementById('patient-complaint').value,
+                date: new Date().toISOString(),
+                language: lang
+            };
+            
+            // Update or add patient data
+            const existingIndex = patientData.findIndex(p => p.id === patientId);
+            if (existingIndex !== -1) {
+                patientData[existingIndex] = patient;
+            } else {
+                patientData.push(patient);
+            }
+            
+            localStorage.setItem('patientData', JSON.stringify(patientData));
+            saveToExcel(patientData);
+            
+            // Display patient ID if not already shown
+            if (!document.getElementById('patient-id').textContent) {
+                document.getElementById('patient-id').textContent = patientId;
+                document.getElementById('patient-id-display').style.display = 'block';
+                speakMessage(`${currentLang.voice.success} ${patientId}`);
+            }
+            
+            return patientId;
+        }
+        
+        // Navigate to disease selection
+        function navigateToDiseaseSelection(patientId) {
+            if (patientId) {
+                window.location.href = `disease.html?lang=${lang}&pid=${patientId}`;
+            } else {
+                speakMessage("Please save your details first");
+            }
+        }
+        
+        // Form submission
+        document.getElementById('patient-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const patientId = savePatientData();
+            navigateToDiseaseSelection(patientId);
+        });
+        
+        // Save button click
+        document.getElementById('save-btn').addEventListener('click', function() {
+            savePatientData();
+        });
+        
+        // Initial voice greeting
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                speakMessage(currentLang.voice.greeting);
+                document.getElementById('patient-name').focus();
+            }, 1000);
+        });
+        
+        // Check if speech synthesis is supported
+        if (!speech) {
+            voiceAssistant.style.display = 'none';
+            console.warn('Speech synthesis not supported');
+        }
+    </script>
+</body>
+</html>

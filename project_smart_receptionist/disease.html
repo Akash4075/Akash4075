@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .overlay {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            color: white;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .disease-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .disease-category {
+            margin-bottom: 2rem;
+        }
+        
+        .disease-category h2 {
+            color: white;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .disease-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .disease-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .disease-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .disease-option.selected {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+        }
+        
+        .emergency {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .children {
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .common {
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .payment-section {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .payment-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .payment-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .voice-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            z-index: 100;
+            border: none;
+        }
+        
+        .voice-assistant:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        
+        .voice-assistant svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .disease-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .disease-container {
+                padding: 1.5rem;
+            }
+            
+            .voice-assistant {
+                width: 60px;
+                height: 60px;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="header">
+            <a href="patient.html" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span id="back-text">Back</span>
+            </a>
+            <h1 id="page-title">Select Your Condition</h1>
+            <div style="width: 80px;"></div> <!-- Spacer for alignment -->
+        </div>
+        
+        <div class="disease-container">
+            <div class="disease-category">
+                <h2 id="emergency-title">Emergency (Accident, Pregnancy, etc.)</h2>
+                <div class="disease-options">
+                    <div class="disease-option emergency" data-disease="accident">
+                        <div id="accident-text">Accident Injury</div>
+                    </div>
+                    <div class="disease-option emergency" data-disease="heart-attack">
+                        <div id="heart-attack-text">Heart Attack</div>
+                    </div>
+                    <div class="disease-option emergency" data-disease="stroke">
+                        <div id="stroke-text">Stroke</div>
+                    </div>
+                    <div class="disease-option emergency" data-disease="pregnancy">
+                        <div id="pregnancy-text">Pregnancy Emergency</div>
+                    </div>
+                    <div class="disease-option emergency" data-disease="breathing">
+                        <div id="breathing-text">Severe Breathing Difficulty</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="disease-category">
+                <h2 id="children-title">Children's Health</h2>
+                <div class="disease-options">
+                    <div class="disease-option children" data-disease="fever">
+                        <div id="fever-text">High Fever</div>
+                    </div>
+                    <div class="disease-option children" data-disease="vaccination">
+                        <div id="vaccination-text">Vaccination</div>
+                    </div>
+                    <div class="disease-option children" data-disease="diarrhea">
+                        <div id="diarrhea-text">Diarrhea/Dehydration</div>
+                    </div>
+                    <div class="disease-option children" data-disease="asthma">
+                        <div id="asthma-text">Childhood Asthma</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="disease-category">
+                <h2 id="common-title">Common Diseases</h2>
+                <div class="disease-options">
+                    <div class="disease-option common" data-disease="fever-cold">
+                        <div id="fever-cold-text">Fever & Cold</div>
+                    </div>
+                    <div class="disease-option common" data-disease="headache">
+                        <div id="headache-text">Headache/Migraine</div>
+                    </div>
+                    <div class="disease-option common" data-disease="body-pain">
+                        <div id="body-pain-text">Body Pain</div>
+                    </div>
+                    <div class="disease-option common" data-disease="stomach">
+                        <div id="stomach-text">Stomach Pain</div>
+                    </div>
+                    <div class="disease-option common" data-disease="skin">
+                        <div id="skin-text">Skin Problems</div>
+                    </div>
+                    <div class="disease-option common" data-disease="eye">
+                        <div id="eye-text">Eye Problems</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-section">
+                <button class="payment-btn" id="payment-btn">Proceed to Payment</button>
+            </div>
+        </div>
+        
+        <button class="voice-assistant pulse" id="voice-assistant">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Language support
+        const translations = {
+            en: {
+                title: "Select Your Condition",
+                back: "Back",
+                emergencyTitle: "Emergency (Accident, Pregnancy, etc.)",
+                childrenTitle: "Children's Health",
+                commonTitle: "Common Diseases",
+                diseases: {
+                    accident: "Accident Injury",
+                    "heart-attack": "Heart Attack",
+                    stroke: "Stroke",
+                    pregnancy: "Pregnancy Emergency",
+                    breathing: "Severe Breathing Difficulty",
+                    fever: "High Fever",
+                    vaccination: "Vaccination",
+                    diarrhea: "Diarrhea/Dehydration",
+                    asthma: "Childhood Asthma",
+                    "fever-cold": "Fever & Cold",
+                    headache: "Headache/Migraine",
+                    "body-pain": "Body Pain",
+                    stomach: "Stomach Pain",
+                    skin: "Skin Problems",
+                    eye: "Eye Problems"
+                },
+                paymentBtn: "Proceed to Payment",
+                voice: {
+                    greeting: "Please select your medical condition from the options. First choose emergency if needed, then children's health or common diseases.",
+                    select: "Please select your condition",
+                    payment: "Press payment button to proceed",
+                    selected: "You have selected"
+                }
+            },
+            kn: {
+                title: "ನಿಮ್ಮ ಆರೋಗ್ಯ ಸ್ಥಿತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+                back: "ಹಿಂದೆ",
+                emergencyTitle: "ತುರ್ತು ಪರಿಸ್ಥಿತಿ (ಅಪಘಾತ, ಗರ್ಭಿಣಿ, ಇತ್ಯಾದಿ)",
+                childrenTitle: "ಮಕ್ಕಳ ಆರೋಗ್ಯ",
+                commonTitle: "ಸಾಮಾನ್ಯ ರೋಗಗಳು",
+                diseases: {
+                    accident: "ಅಪಘಾತದ ಗಾಯ",
+                    "heart-attack": "ಹೃದಯಾಘಾತ",
+                    stroke: "ಸ್ಟ್ರೋಕ್",
+                    pregnancy: "ಗರ್ಭಿಣಿ ತುರ್ತು",
+                    breathing: "ಗಂಭೀರ ಉಸಿರಾಟದ ತೊಂದರೆ",
+                    fever: "ಹೆಚ್ಚು ಜ್ವರ",
+                    vaccination: "ಲಸಿಕೆ",
+                    diarrhea: "ಭೇದಿ/ನಿರ್ಜಲೀಕರಣ",
+                    asthma: "ಮಕ್ಕಳ ಆಸ್ತಮಾ",
+                    "fever-cold": "ಜ್ವರ ಮತ್ತು ಶೀತ",
+                    headache: "ತಲೆನೋವು/ಮೈಗ್ರೇನ್",
+                    "body-pain": "ಶರೀರದ ನೋವು",
+                    stomach: "ಹೊಟ್ಟೆನೋವು",
+                    skin: "ಚರ್ಮದ ಸಮಸ್ಯೆಗಳು",
+                    eye: "ಕಣ್ಣಿನ ಸಮಸ್ಯೆಗಳು"
+                },
+                paymentBtn: "ಪಾವತಿಗೆ ಮುಂದುವರಿಯಿರಿ",
+                voice: {
+                    greeting: "ದಯವಿಟ್ಟು ಆಯ್ಕೆಮಾಡಿ ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ಸ್ಥಿತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ. ಮೊದಲು ಅಗತ್ಯವಿದ್ದರೆ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ, ನಂತರ ಮಕ್ಕಳ ಆರೋಗ್ಯ ಅಥವಾ ಸಾಮಾನ್ಯ ರೋಗಗಳು.",
+                    select: "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸ್ಥಿತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+                    payment: "ಮುಂದುವರಿಯಲು ಪಾವತಿ ಬಟನ್ ಒತ್ತಿರಿ",
+                    selected: "ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ"
+                }
+            },
+            hi: {
+                title: "अपनी स्थिति चुनें",
+                back: "पीछे",
+                emergencyTitle: "आपातकाल (दुर्घटना, गर्भावस्था, आदि)",
+                childrenTitle: "बच्चों का स्वास्थ्य",
+                commonTitle: "सामान्य बीमारियाँ",
+                diseases: {
+                    accident: "दुर्घटना की चोट",
+                    "heart-attack": "दिल का दौरा",
+                    stroke: "स्ट्रोक",
+                    pregnancy: "गर्भावस्था आपातकाल",
+                    breathing: "गंभीर सांस लेने में कठिनाई",
+                    fever: "तेज बुखार",
+                    vaccination: "टीकाकरण",
+                    diarrhea: "दस्त/निर्जलीकरण",
+                    asthma: "बचपन का अस्थमा",
+                    "fever-cold": "बुखार और जुकाम",
+                    headache: "सिरदर्द/माइग्रेन",
+                    "body-pain": "शरीर में दर्द",
+                    stomach: "पेट दर्द",
+                    skin: "त्वचा की समस्याएं",
+                    eye: "आंखों की समस्याएं"
+                },
+                paymentBtn: "भुगतान के लिए आगे बढ़ें",
+                voice: {
+                    greeting: "कृपया विकल्पों में से अपनी चिकित्सा स्थिति का चयन करें। पहले यदि आवश्यक हो तो आपातकालीन स्थिति चुनें, फिर बच्चों के स्वास्थ्य या सामान्य बीमारियाँ।",
+                    select: "कृपया अपनी स्थिति चुनें",
+                    payment: "आगे बढ़ने के लिए भुगतान बटन दबाएं",
+                    selected: "आपने चुना है"
+                }
+            }
+        };
+
+        // Get language from URL parameter or default to English
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang') || 'en';
+        const currentLang = translations[lang] || translations.en;
+        const patientId = urlParams.get('pid');
+
+        // Apply translations
+        document.getElementById('page-title').textContent = currentLang.title;
+        document.getElementById('back-text').textContent = currentLang.back;
+        document.getElementById('emergency-title').textContent = currentLang.emergencyTitle;
+        document.getElementById('children-title').textContent = currentLang.childrenTitle;
+        document.getElementById('common-title').textContent = currentLang.commonTitle;
+        document.getElementById('payment-btn').textContent = currentLang.paymentBtn;
+
+        // Translate disease options
+        Object.keys(currentLang.diseases).forEach(disease => {
+            const element = document.getElementById(`${disease}-text`);
+            if (element) {
+                element.textContent = currentLang.diseases[disease];
+            }
+        });
+
+        // Disease selection
+        let selectedDisease = null;
+        const diseaseOptions = document.querySelectorAll('.disease-option');
+        
+        diseaseOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                diseaseOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedDisease = this.getAttribute('data-disease');
+                
+                // Speak selected disease
+                const diseaseName = currentLang.diseases[selectedDisease];
+                speakMessage(`${currentLang.voice.selected} ${diseaseName}`);
+            });
+        });
+
+        // Payment button - Redirect to payment.html with parameters
+        document.getElementById('payment-btn').addEventListener('click', function() {
+            if (!selectedDisease) {
+                speakMessage(currentLang.voice.select);
+                return;
+            }
+            
+            // Save to patient history (optional)
+            const patientData = JSON.parse(localStorage.getItem('patientData') || '[]');
+            const patientIndex = patientData.findIndex(p => p.id === patientId);
+            
+            if (patientIndex !== -1) {
+                patientData[patientIndex].condition = selectedDisease;
+                patientData[patientIndex].conditionName = currentLang.diseases[selectedDisease];
+                patientData[patientIndex].timestamp = new Date().toISOString();
+                localStorage.setItem('patientData', JSON.stringify(patientData));
+                
+                // Save to Excel (optional)
+                saveToExcel(patientData);
+            }
+            
+            // Redirect to payment.html with all necessary parameters
+            window.location.href = `payment.html?lang=${lang}&pid=${patientId}&condition=${selectedDisease}`;
+        });
+
+        // Voice assistant
+        const voiceAssistant = document.getElementById('voice-assistant');
+        const speech = window.speechSynthesis;
+        
+        function speakMessage(message, langCode) {
+            // Stop any ongoing speech
+            speech.cancel();
+            
+            // Create and speak the message
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = message;
+            utterance.lang = langCode || (lang === 'en' ? 'en-US' : lang === 'kn' ? 'kn-IN' : 'hi-IN');
+            utterance.rate = 0.9;
+            
+            // Add pulse animation when speaking
+            voiceAssistant.classList.add('pulse');
+            utterance.onend = () => voiceAssistant.classList.remove('pulse');
+            
+            speech.speak(utterance);
+        }
+        
+        voiceAssistant.addEventListener('click', function() {
+            speakMessage(currentLang.voice.greeting);
+        });
+
+        // Initial voice greeting
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                speakMessage(currentLang.voice.greeting);
+            }, 1000);
+        });
+
+        // Save to Excel (optional)
+        function saveToExcel(data) {
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            
+            // Convert data to worksheet
+            const ws = XLSX.utils.json_to_sheet(data);
+            
+            // Add worksheet to workbook
+            XLSX.utils.book_append_sheet(wb, ws, "Patients");
+            
+            // Generate Excel file
+            XLSX.writeFile(wb, "patient_records.xlsx");
+        }
+
+        // Check if speech synthesis is supported
+        if (!speech) {
+            voiceAssistant.style.display = 'none';
+            console.warn('Speech synthesis not supported');
+        }
+    </script>
+</body>
+</html>

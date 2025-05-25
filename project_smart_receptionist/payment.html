@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Selection & Payment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://images.unsplash.com/photo-1579684453423-f84349ef60b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .overlay {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            color: white;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .doctor-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .doctor-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .doctor-info h2 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .doctor-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .detail-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .detail-item h3 {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-item p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .payment-section {
+            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .payment-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .payment-option {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .payment-option.selected {
+            background: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+        }
+        
+        .payment-option img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        
+        .upi-id {
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .upi-id input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .voice-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            z-index: 100;
+            border: none;
+        }
+        
+        .voice-assistant:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        
+        .voice-assistant svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .doctor-container {
+                padding: 1.5rem;
+            }
+            
+            .doctor-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .voice-assistant {
+                width: 60px;
+                height: 60px;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="header">
+            <a href="disease.html" class="back-btn" id="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span id="back-text">Back</span>
+            </a>
+            <h1 id="page-title">Doctor & Payment</h1>
+            <div style="width: 80px;"></div>
+        </div>
+        
+        <div class="doctor-container">
+            <div class="doctor-info">
+                <h2 id="doctor-title">Doctor Information</h2>
+                <div class="doctor-details">
+                    <div class="detail-item">
+                        <h3 id="doctor-name-label">Doctor Name</h3>
+                        <p id="doctor-name">Dr. Rajesh Kumar</p>
+                    </div>
+                    <div class="detail-item">
+                        <h3 id="specialization-label">Specialization</h3>
+                        <p id="specialization">Cardiologist</p>
+                    </div>
+                    <div class="detail-item">
+                        <h3 id="floor-label">Floor Number</h3>
+                        <p id="floor-number">3rd Floor</p>
+                    </div>
+                    <div class="detail-item">
+                        <h3 id="room-label">Room Number</h3>
+                        <p id="room-number">Room 302</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-section">
+                <h2 id="payment-title">Payment Options</h2>
+                <div class="payment-options">
+                    <div class="payment-option selected" id="upi-option">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI">
+                        <div>
+                            <h3 id="upi-title">UPI Payment</h3>
+                            <p id="upi-desc">Pay using any UPI app</p>
+                        </div>
+                    </div>
+                    <div class="payment-option" id="qr-option">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QR Code">
+                        <div>
+                            <h3 id="qr-title">Scan QR Code</h3>
+                            <p id="qr-desc">Scan to pay</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upi-id" id="upi-id-section">
+                    <input type="text" id="upi-input" placeholder="Enter UPI ID">
+                </div>
+                
+                <div id="qr-code" style="text-align: center; display: none;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=hospitalupi%40okhdfcbank" alt="QR Code" style="max-width: 200px; margin: 0 auto;">
+                    <p id="scan-text" style="margin-top: 1rem;">Scan this QR code to pay</p>
+                </div>
+                
+                <div class="detail-item" style="margin-top: 1.5rem;">
+                    <h3 id="fees-label">Consultation Fees</h3>
+                    <p id="fees-amount">₹500</p>
+                </div>
+                
+                <button class="submit-btn" id="submit-btn">Make Payment</button>
+            </div>
+        </div>
+        
+        <button class="voice-assistant pulse" id="voice-assistant">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Language support
+        const translations = {
+            en: {
+                title: "Doctor & Payment",
+                back: "Back",
+                doctorTitle: "Doctor Information",
+                doctorName: "Doctor Name",
+                specialization: "Specialization",
+                floor: "Floor Number",
+                room: "Room Number",
+                paymentTitle: "Payment Options",
+                upiTitle: "UPI Payment",
+                upiDesc: "Pay using any UPI app",
+                qrTitle: "Scan QR Code",
+                qrDesc: "Scan to pay",
+                fees: "Consultation Fees",
+                submit: "Make Payment",
+                scanText: "Scan this QR code to pay",
+                voice: {
+                    greeting: "Here is your doctor information and payment options. Please make the payment to proceed.",
+                    doctorInfo: "Your doctor is Dr. Rajesh Kumar, Cardiologist on 3rd floor, room 302",
+                    paymentOptions: "Please select payment method. UPI payment or QR code scan",
+                    paymentSuccess: "Payment successful. Receipt will be printed shortly"
+                }
+            },
+            kn: {
+                title: "ವೈದ್ಯರು ಮತ್ತು ಪಾವತಿ",
+                back: "ಹಿಂದೆ",
+                doctorTitle: "ವೈದ್ಯರ ಮಾಹಿತಿ",
+                doctorName: "ವೈದ್ಯರ ಹೆಸರು",
+                specialization: "ವಿಶೇಷತೆ",
+                floor: "ಅಂತಸ್ತು ಸಂಖ್ಯೆ",
+                room: "ಕೊಠಡಿ ಸಂಖ್ಯೆ",
+                paymentTitle: "ಪಾವತಿ ಆಯ್ಕೆಗಳು",
+                upiTitle: "UPI ಪಾವತಿ",
+                upiDesc: "ಯಾವುದೇ UPI ಅಪ್ಲಿಕೇಶನ್ ಬಳಸಿ ಪಾವತಿಸಿ",
+                qrTitle: "QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+                qrDesc: "ಪಾವತಿಸಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+                fees: "ಸಲಹಾ ಶುಲ್ಕ",
+                submit: "ಪಾವತಿ ಮಾಡಿ",
+                scanText: "ಪಾವತಿಸಲು ಈ QR ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+                voice: {
+                    greeting: "ಇಲ್ಲಿ ನಿಮ್ಮ ವೈದ್ಯರ ಮಾಹಿತಿ ಮತ್ತು ಪಾವತಿ ಆಯ್ಕೆಗಳು ಇವೆ. ಮುಂದುವರಿಯಲು ದಯವಿಟ್ಟು ಪಾವತಿಸಿ.",
+                    doctorInfo: "ನಿಮ್ಮ ವೈದ್ಯರು ಡಾ. ರಾಜೇಶ್ ಕುಮಾರ್, ಹೃದ್ರೋಗ ತಜ್ಞ, 3ನೇ ಅಂತಸ್ತು, ಕೊಠಡಿ 302",
+                    paymentOptions: "ದಯವಿಟ್ಟು ಪಾವತಿ ವಿಧಾನವನ್ನು ಆಯ್ಕೆಮಾಡಿ. UPI ಪಾವತಿ ಅಥವಾ QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್",
+                    paymentSuccess: "ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ರಸೀದಿ ಶೀಘ್ರದಲ್ಲೇ ಮುದ್ರಿಸಲ್ಪಡುತ್ತದೆ"
+                }
+            },
+            hi: {
+                title: "डॉक्टर और भुगतान",
+                back: "पीछे",
+                doctorTitle: "डॉक्टर की जानकारी",
+                doctorName: "डॉक्टर का नाम",
+                specialization: "विशेषज्ञता",
+                floor: "फ्लोर नंबर",
+                room: "कमरा नंबर",
+                paymentTitle: "भुगतान विकल्प",
+                upiTitle: "UPI भुगतान",
+                upiDesc: "किसी भी UPI ऐप का उपयोग करके भुगतान करें",
+                qrTitle: "QR कोड स्कैन करें",
+                qrDesc: "भुगतान करने के लिए स्कैन करें",
+                fees: "परामर्श शुल्क",
+                submit: "भुगतान करें",
+                scanText: "भुगतान करने के लिए इस QR कोड को स्कैन करें",
+                voice: {
+                    greeting: "यहां आपकी डॉक्टर की जानकारी और भुगतान विकल्प हैं। आगे बढ़ने के लिए कृपया भुगतान करें।",
+                    doctorInfo: "आपके डॉक्टर हैं डॉ. राजेश कुमार, हृदय रोग विशेषज्ञ, तीसरी मंजिल, कमरा 302",
+                    paymentOptions: "कृपया भुगतान विधि चुनें। UPI भुगतान या QR कोड स्कैन",
+                    paymentSuccess: "भुगतान सफल। रसीद शीघ्र ही प्रिंट की जाएगी"
+                }
+            }
+        };
+
+        // Get language and patient ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang') || 'en';
+        const patientId = urlParams.get('pid');
+        const currentLang = translations[lang] || translations.en;
+
+        // Apply translations
+        document.getElementById('page-title').textContent = currentLang.title;
+        document.getElementById('back-text').textContent = currentLang.back;
+        document.getElementById('doctor-title').textContent = currentLang.doctorTitle;
+        document.getElementById('doctor-name-label').textContent = currentLang.doctorName;
+        document.getElementById('specialization-label').textContent = currentLang.specialization;
+        document.getElementById('floor-label').textContent = currentLang.floor;
+        document.getElementById('room-label').textContent = currentLang.room;
+        document.getElementById('payment-title').textContent = currentLang.paymentTitle;
+        document.getElementById('upi-title').textContent = currentLang.upiTitle;
+        document.getElementById('upi-desc').textContent = currentLang.upiDesc;
+        document.getElementById('qr-title').textContent = currentLang.qrTitle;
+        document.getElementById('qr-desc').textContent = currentLang.qrDesc;
+        document.getElementById('fees-label').textContent = currentLang.fees;
+        document.getElementById('submit-btn').textContent = currentLang.submit;
+        document.getElementById('scan-text').textContent = currentLang.scanText;
+
+        // Payment option selection
+        const upiOption = document.getElementById('upi-option');
+        const qrOption = document.getElementById('qr-option');
+        const upiIdSection = document.getElementById('upi-id-section');
+        const qrCode = document.getElementById('qr-code');
+        
+        upiOption.addEventListener('click', function() {
+            upiOption.classList.add('selected');
+            qrOption.classList.remove('selected');
+            upiIdSection.style.display = 'block';
+            qrCode.style.display = 'none';
+        });
+        
+        qrOption.addEventListener('click', function() {
+            qrOption.classList.add('selected');
+            upiOption.classList.remove('selected');
+            upiIdSection.style.display = 'none';
+            qrCode.style.display = 'block';
+        });
+
+        // Bluetooth printer simulation
+        function printReceipt() {
+            // In a real implementation, this would connect to a thermal printer via Bluetooth
+            console.log("Connecting to Bluetooth printer...");
+            console.log("Printing receipt for patient ID:", patientId);
+            
+            const receiptContent = `
+                HOSPITAL RECEIPT
+                --------------------------
+                Patient ID: ${patientId}
+                Doctor: Dr. Rajesh Kumar
+                Specialization: Cardiologist
+                Floor: 3rd Floor, Room 302
+                Fees: ₹500
+                Payment Method: ${upiOption.classList.contains('selected') ? 'UPI' : 'QR Code'}
+                Date: ${new Date().toLocaleString()}
+                --------------------------
+                Thank you for visiting!
+            `;
+            
+            console.log(receiptContent);
+            alert("Receipt sent to thermal printer!");
+        }
+
+        // Submit payment
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            // Validate payment
+            if (upiOption.classList.contains('selected') && !document.getElementById('upi-input').value) {
+                alert("Please enter UPI ID");
+                return;
+            }
+            
+            // Process payment (simulated)
+            setTimeout(() => {
+                // Print receipt
+                printReceipt();
+                
+                // Show success message
+                alert("Payment successful! Receipt is being printed.");
+                
+                // In a real implementation, would redirect to next step
+                // window.location.href = `confirmation.html?lang=${lang}&pid=${patientId}`;
+            }, 1500);
+        });
+
+        // Voice assistant functionality
+        const voiceAssistant = document.getElementById('voice-assistant');
+        const speech = window.speechSynthesis;
+        
+        function speakMessage(message, langCode) {
+            speech.cancel();
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = message;
+            utterance.lang = langCode || (lang === 'en' ? 'en-US' : lang === 'kn' ? 'kn-IN' : 'hi-IN');
+            utterance.rate = 0.9;
+            voiceAssistant.classList.add('pulse');
+            utterance.onend = () => voiceAssistant.classList.remove('pulse');
+            speech.speak(utterance);
+        }
+        
+        voiceAssistant.addEventListener('click', function() {
+            speakMessage(currentLang.voice.greeting);
+            setTimeout(() => speakMessage(currentLang.voice.doctorInfo), 2000);
+            setTimeout(() => speakMessage(currentLang.voice.paymentOptions), 5000);
+        });
+
+        // Initial voice greeting
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                speakMessage(currentLang.voice.greeting);
+            }, 1000);
+        });
+
+        // Check if speech synthesis is supported
+        if (!speech) {
+            voiceAssistant.style.display = 'none';
+            console.warn('Speech synthesis not supported');
+        }
+
+        // Load doctor information based on disease (simulated)
+        function loadDoctorInfo() {
+            // In a real implementation, this would fetch from a database
+            // based on the patient's selected condition
+            const doctors = {
+                "cardiology": {
+                    name: "Dr. Rajesh Kumar",
+                    specialization: "Cardiologist",
+                    floor: "3rd Floor",
+                    room: "Room 302",
+                    fees: "₹500"
+                },
+                "orthopedics": {
+                    name: "Dr. Priya Sharma",
+                    specialization: "Orthopedic Surgeon",
+                    floor: "2nd Floor",
+                    room: "Room 205",
+                    fees: "₹400"
+                },
+                "pediatrics": {
+                    name: "Dr. Anil Gupta",
+                    specialization: "Pediatrician",
+                    floor: "1st Floor",
+                    room: "Room 110",
+                    fees: "₹300"
+                }
+            };
+            
+            // Default to cardiology for demo
+            const doctor = doctors["cardiology"];
+            document.getElementById('doctor-name').textContent = doctor.name;
+            document.getElementById('specialization').textContent = doctor.specialization;
+            document.getElementById('floor-number').textContent = doctor.floor;
+            document.getElementById('room-number').textContent = doctor.room;
+            document.getElementById('fees-amount').textContent = doctor.fees;
+        }
+
+        // Load doctor info on page load
+        loadDoctorInfo();
+    </script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Smart Receptionist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+        
+        .overlay {
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .slider-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            height: 400px;
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .slider-nav button {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .slider-nav button:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .content-section {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .content-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .content-section p {
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .language-section {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+        
+        .language-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        
+        .language-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .language-btn.active {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+        }
+        
+        .next-section {
+            text-align: center;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .next-btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+        
+        .next-btn:hover {
+            background: #0d9f6e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .doctor-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+        
+        .doctor-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .voice-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            z-index: 100;
+            border: none;
+        }
+        
+        .voice-assistant:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        
+        .voice-assistant svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .slider-container {
+                height: 300px;
+            }
+            
+            .language-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .voice-assistant {
+                width: 60px;
+                height: 60px;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            
+            .next-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div>
+            <header class="header">
+                <h1>Welcome to Smart Receptionist</h1>
+                <p>Your digital healthcare assistant for seamless hospital experience</p>
+            </header>
+            
+            <div class="slider-container">
+                <div class="slider">
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Doctor consulting patient">
+                        <div class="slide-caption">Expert Medical Consultation</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Emergency care">
+                        <div class="slide-caption">24/7 Emergency Care</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Patient care">
+                        <div class="slide-caption">Compassionate Patient Care</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Medical team">
+                        <div class="slide-caption">Dedicated Medical Team</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Child treatment">
+                        <div class="slide-caption">Pediatric Specialists</div>
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <button id="prev-slide">&lt;</button>
+                    <button id="next-slide">&gt;</button>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <h2>About Our Smart Receptionist</h2>
+                <p>Our Smart Receptionist is an innovative digital platform designed to transform your hospital experience. By leveraging advanced technology, we reduce waiting times, eliminate language barriers, and provide personalized guidance throughout your healthcare journey.</p>
+                <p>The system integrates seamlessly with hospital operations to provide real-time information about doctor availability, appointment scheduling, department locations, and medical services - all accessible through this intuitive interface.</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>Problems We Solve</h2>
+                <ul>
+                    <li><strong>Long queues:</strong> Digital check-in reduces waiting time by up to 70%</li>
+                    <li><strong>Language barriers:</strong> Instant translation in Kannada, English, and Hindi</li>
+                    <li><strong>Navigation difficulties:</strong> Interactive maps guide you to the right department</li>
+                    <li><strong>Information gaps:</strong> Real-time updates on doctor availability and wait times</li>
+                    <li><strong>Accessibility:</strong> Voice-assisted interface for visually impaired patients</li>
+                </ul>
+            </div>
+            
+            <div class="language-section">
+                <h2>Select Your Preferred Language</h2>
+                <div class="language-buttons">
+                    <button class="language-btn active" data-lang="en" id="english-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        English
+                    </button>
+                    <button class="language-btn" data-lang="kn" id="kannada-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        ಕನ್ನಡ
+                    </button>
+                    <button class="language-btn" data-lang="hi" id="hindi-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        हिंदी
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="next-section">
+            <a href="#" class="next-btn" id="continue-btn">Continue to Patient Form</a>
+            <a href="doctor-login.html" class="doctor-btn" id="doctor-login-btn">Doctor's Login</a>
+        </div>
+        
+        <button class="voice-assistant pulse" id="voice-assistant">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const nextBtn = document.getElementById('next-slide');
+        const prevBtn = document.getElementById('prev-slide');
+        
+        function showSlide(n) {
+            currentSlide = (n + totalSlides) % totalSlides;
+            document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        
+        nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+        prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+        
+        // Auto-advance slides every 5 seconds
+        setInterval(() => showSlide(currentSlide + 1), 5000);
+        
+        // Language selection
+        let selectedLanguage = 'en';
+        const langButtons = document.querySelectorAll('.language-btn');
+        
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                langButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedLanguage = this.getAttribute('data-lang');
+                
+                // Update voice assistant message based on language
+                updateVoiceAssistantMessage();
+            });
+        });
+        
+        // Continue button functionality
+        document.getElementById('continue-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = `patient.html?lang=${selectedLanguage}`;
+        });
+        
+        // Voice assistant
+        const voiceAssistant = document.getElementById('voice-assistant');
+        const speech = window.speechSynthesis;
+        
+        function updateVoiceAssistantMessage() {
+            // This would update the voice assistant messages based on language
+            // In a real implementation, you would have different messages for each language
+        }
+        
+        function speakMessage(message, langCode) {
+            // Stop any ongoing speech
+            speech.cancel();
+            
+            // Create and speak the message
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = message;
+            utterance.lang = langCode;
+            utterance.rate = 0.9;
+            
+            // Add pulse animation when speaking
+            voiceAssistant.classList.add('pulse');
+            utterance.onend = () => voiceAssistant.classList.remove('pulse');
+            
+            speech.speak(utterance);
+        }
+        
+        voiceAssistant.addEventListener('click', function() {
+            // Set message based on selected language
+            let message, langCode;
+            
+            if (selectedLanguage === 'kn') {
+                message = "ಸ್ಮಾರ್ಟ್ ರಿಸೆಪ್ಷನಿಸ್ಟ್ಗೆ ಸುಸ್ವಾಗತ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಮುಂದುವರಿಯಲು ಪೇಶೆಂಟ್ ಫಾರ್ಮ್ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ.";
+                langCode = 'kn-IN';
+            } else if (selectedLanguage === 'hi') {
+                message = "स्मार्ट रिसेप्शनिस्ट में आपका स्वागत है। कृपया अपनी पसंदीदा भाषा चुनें और आगे बढ़ने के लिए पेशेंट फॉर्म बटन पर क्लिक करें।";
+                langCode = 'hi-IN';
+            } else {
+                message = "Welcome to Smart Receptionist. Please select your preferred language and click the Patient Form button to continue.";
+                langCode = 'en-US';
+            }
+            
+            speakMessage(message, langCode);
+        });
+        
+        // Check if speech synthesis is supported
+        if (!speech) {
+            voiceAssistant.style.display = 'none';
+            console.warn('Speech synthesis not supported');
+        }
+        
+        // Initial voice greeting
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                speakMessage("Welcome to Smart Receptionist. Please select your preferred language.", 'en-US');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

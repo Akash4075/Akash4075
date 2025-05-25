@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Prescription</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .doctor-info, .patient-info {
+            width: 48%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .medicine-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        .medicine-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .remove-medicine {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .add-medicine {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 30px auto 0;
+        }
+        .timestamp {
+            text-align: right;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .required:after {
+            content: " *";
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Prescription</h1>
+        
+        <div class="header-info">
+            <div class="doctor-info">
+                <h3>Doctor Information</h3>
+                <p id="doctorName">Dr. <span id="docName"></span></p>
+                <p>Specialization: <span id="docSpecialization"></span></p>
+                <p>License: <span id="docLicense"></span></p>
+            </div>
+            
+            <div class="patient-info">
+                <h3>Patient Information</h3>
+                <div class="form-group">
+                    <label for="patientName" class="required">Patient Full Name</label>
+                    <input type="text" id="patientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientAge" class="required">Age</label>
+                    <input type="number" id="patientAge" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientGender" class="required">Gender</label>
+                    <select id="patientGender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="patientDisease" class="required">Disease/Condition</label>
+                    <input type="text" id="patientDisease" required>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="diagnosis" class="required">Diagnosis Details</label>
+            <textarea id="diagnosis" required></textarea>
+        </div>
+        
+        <h3>Medications <span style="color: #e74c3c;">*</span></h3>
+        <button type="button" class="add-medicine" id="addMedicine">+ Add Medicine</button>
+        
+        <div id="medicinesContainer">
+            <!-- Medicine items will be added here -->
+        </div>
+        
+        <div class="form-group">
+            <label for="instructions">Additional Instructions</label>
+            <textarea id="instructions"></textarea>
+        </div>
+        
+        <div class="timestamp" id="timestamp"></div>
+        
+        <button type="button" class="submit-btn" id="savePrescription">Save Prescription to Excel</button>
+    </div>
+
+    <script>
+        // Get current doctor information from session
+        const currentDoctor = JSON.parse(sessionStorage.getItem('currentDoctor'));
+        
+        if (!currentDoctor) {
+            window.location.href = "login.html";
+        } else {
+            // Display doctor information
+            document.getElementById('docName').textContent = currentDoctor.fullName;
+            document.getElementById('docSpecialization').textContent = currentDoctor.specialization;
+            document.getElementById('docLicense').textContent = currentDoctor.licenseNumber;
+        }
+        
+        // Display current date and time
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('timestamp').textContent = `Prescribed on: ${now.toLocaleDateString('en-US', options)}`;
+            return now;
+        }
+        const currentDateTime = updateTimestamp();
+        
+        // Medicine counter
+        let medicineCounter = 0;
+        
+        // Add medicine function
+        document.getElementById('addMedicine').addEventListener('click', function() {
+            medicineCounter++;
+            const medicineHTML = `
+                <div class="medicine-item" id="medicine-${medicineCounter}">
+                    <div class="medicine-header">
+                        <h4>Medicine #${medicineCounter}</h4>
+                        <button type="button" class="remove-medicine" onclick="removeMedicine(${medicineCounter})">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicineName-${medicineCounter}" class="required">Medicine Name</label>
+                        <input type="text" id="medicineName-${medicineCounter}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dosage-${medicineCounter}" class="required">Dosage</label>
+                        <input type="text" id="dosage-${medicineCounter}" placeholder="e.g., 500mg" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="frequency-${medicineCounter}" class="required">Frequency</label>
+                        <input type="text" id="frequency-${medicineCounter}" placeholder="e.g., Twice daily" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration-${medicineCounter}" class="required">Duration</label>
+                        <input type="text" id="duration-${medicineCounter}" placeholder="e.g., 7 days" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes-${medicineCounter}">Special Notes</label>
+                        <input type="text" id="notes-${medicineCounter}" placeholder="Any special instructions">
+                    </div>
+                </div>
+            `;
+            document.getElementById('medicinesContainer').insertAdjacentHTML('beforeend', medicineHTML);
+        });
+        
+        // Remove medicine function
+        function removeMedicine(id) {
+            const medicineElement = document.getElementById(`medicine-${id}`);
+            if (medicineElement) {
+                medicineElement.remove();
+            }
+        }
+        
+        // Save prescription to Excel
+        document.getElementById('savePrescription').addEventListener('click', function() {
+            // Validate form
+            const patientName = document.getElementById('patientName').value;
+            const patientAge = document.getElementById('patientAge').value;
+            const patientGender = document.getElementById('patientGender').value;
+            const patientDisease = document.getElementById('patientDisease').value;
+            const diagnosis = document.getElementById('diagnosis').value;
+            
+            if (!patientName || !patientAge || !patientGender || !patientDisease || !diagnosis || medicineCounter === 0) {
+                alert('Please fill all required fields and add at least one medicine');
+                return;
+            }
+            
+            // Collect all medicines
+            const medicines = [];
+            for (let i = 1; i <= medicineCounter; i++) {
+                const medicineElement = document.getElementById(`medicine-${i}`);
+                if (medicineElement) {
+                    const medicineName = document.getElementById(`medicineName-${i}`).value;
+                    const dosage = document.getElementById(`dosage-${i}`).value;
+                    const frequency = document.getElementById(`frequency-${i}`).value;
+                    const duration = document.getElementById(`duration-${i}`).value;
+                    const notes = document.getElementById(`notes-${i}`).value;
+                    
+                    if (medicineName && dosage && frequency && duration) {
+                        medicines.push({
+                            medicineName,
+                            dosage,
+                            frequency,
+                            duration,
+                            notes
+                        });
+                    }
+                }
+            }
+            
+            if (medicines.length === 0) {
+                alert('Please add at least one valid medicine');
+                return;
+            }
+            
+            // Prepare data for Excel
+            const excelData = [
+                [
+                    "Prescription Date", "Doctor Name", "Specialization", "License Number", 
+                    "Patient Name", "Age", "Gender", "Disease/Condition", "Diagnosis Details",
+                    "Medicine Name", "Dosage", "Frequency", "Duration", "Special Notes", 
+                    "Additional Instructions"
+                ]
+            ];
+            
+            medicines.forEach(medicine => {
+                excelData.push([
+                    currentDateTime.toISOString(),
+                    currentDoctor.fullName,
+                    currentDoctor.specialization,
+                    currentDoctor.licenseNumber,
+                    patientName,
+                    patientAge,
+                    patientGender,
+                    patientDisease,
+                    diagnosis,
+                    medicine.medicineName,
+                    medicine.dosage,
+                    medicine.frequency,
+                    medicine.duration,
+                    medicine.notes,
+                    document.getElementById('instructions').value
+                ]);
+            });
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            // Set column widths
+            ws['!cols'] = [
+                {wch: 20}, {wch: 20}, {wch: 20}, {wch: 15},
+                {wch: 20}, {wch: 5}, {wch: 10}, {wch: 20},
+                {wch: 30}, {wch: 20}, {wch: 15}, {wch: 15},
+                {wch: 15}, {wch: 20}, {wch: 30}
+            ];
+            
+            XLSX.utils.book_append_sheet(wb, ws, "Prescription");
+            
+            // Generate file name
+            const fileName = `Prescription_${patientName.replace(/\s+/g, '_')}_${formatDate(currentDateTime)}.xlsx`;
+            
+            // Save to file
+            XLSX.writeFile(wb, fileName);
+            
+            alert(`Prescription for ${patientName} saved successfully!\nFile: ${fileName}`);
+        });
+        
+        // Helper function to format date for filename
+        function formatDate(date) {
+            return [
+                date.getFullYear(),
+                String(date.getMonth() + 1).padStart(2, '0'),
+                String(date.getDate()).padStart(2, '0'),
+                String(date.getHours()).padStart(2, '0'),
+                String(date.getMinutes()).padStart(2, '0'),
+                String(date.getSeconds()).padStart(2, '0')
+            ].join('');
+        }
+    </script>
+</body>
+</html>
