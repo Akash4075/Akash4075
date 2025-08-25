@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌍 Smart Language Translator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      width: 600px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+    textarea {
+      width: 90%;
+      height: 100px;
+      margin: 15px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      resize: none;
+    }
+    select, button {
+      padding: 10px 15px;
+      margin: 8px;
+      font-size: 15px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    select {
+      background: #fff;
+      color: #333;
+    }
+    button {
+      background: #ffb400;
+      color: #222;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #ff9800;
+      transform: scale(1.05);
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 15px;
+      border-radius: 12px;
+      min-height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🌍 Smart Language Translator</h2>
+
+    <textarea id="inputText" placeholder="Enter text here..."></textarea><br>
+
+    <label>From: </label>
+    <select id="sourceLang">
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+      <option value="fr">French</option>
+      <option value="es">Spanish</option>
+      <option value="de">German</option>
+      <option value="ja">Japanese</option>
+    </select>
+
+    <label>To: </label>
+    <select id="targetLang">
+      <option value="hi">Hindi</option>
+      <option value="en">English</option>
+      <option value="fr">French</option>
+      <option value="es">Spanish</option>
+      <option value="de">German</option>
+      <option value="ja">Japanese</option>
+    </select><br><br>
+
+    <button onclick="translateText()">Translate</button>
+    <button onclick="copyText()">📋 Copy</button>
+    <button onclick="speakText()">🔊 Speak</button>
+
+    <div id="output">Translated text will appear here...</div>
+  </div>
+
+  <script>
+    async function translateText() {
+      let input = document.getElementById("inputText").value;
+      let from = document.getElementById("sourceLang").value;
+      let to = document.getElementById("targetLang").value;
+
+      if (!input.trim()) {
+        document.getElementById("output").innerText = "⚠️ Please enter text to translate!";
+        return;
+      }
+
+      try {
+        // Free Google Translate API (unofficial endpoint)
+        let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(input)}`;
+        
+        let res = await fetch(url);
+        let data = await res.json();
+        
+        let translatedText = data[0][0][0];
+        document.getElementById("output").innerText = translatedText;
+      } catch (error) {
+        document.getElementById("output").innerText = "❌ Translation failed. Try again.";
+      }
+    }
+
+    function copyText() {
+      let text = document.getElementById("output").innerText;
+      navigator.clipboard.writeText(text);
+      alert("✅ Copied to clipboard!");
+    }
+
+    function speakText() {
+      let text = document.getElementById("output").innerText;
+      if (!text.trim()) {
+        alert("⚠️ Nothing to speak!");
+        return;
+      }
+      let speech = new SpeechSynthesisUtterance(text);
+      speech.lang = document.getElementById("targetLang").value;
+      window.speechSynthesis.speak(speech);
+    }
+  </script>
+</body>
+</html>
