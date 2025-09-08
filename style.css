@@ -1,0 +1,32 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  overflow: hidden; /* sidebar should not scroll */
+  z-index: 1000;
+}
+
+.main-content {
+  margin-left: 250px; /* equal to sidebar width */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* prevent double scroll */
+}
+
+.chat-container {
+  flex: 1;
+  overflow-y: auto; /* enables vertical scrolling */
+  padding: 44px 22px 120px 64px;
+  background: #f8faff;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  box-sizing: border-box;
+  height: 100vh; /* take full vertical height */
+}
