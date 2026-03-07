@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 180 100% 98%;
+    --card: 220 20% 8%;
+    --card-foreground: 180 100% 98%;
+    --popover: 220 20% 8%;
+    --popover-foreground: 180 100% 98%;
+    --primary: 185 100% 50%;
+    --primary-foreground: 220 20% 4%;
+    --secondary: 220 20% 12%;
+    --secondary-foreground: 180 100% 98%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 180 20% 60%;
+    --accent: 280 100% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 185 50% 20%;
+    --input: 185 30% 15%;
+    --ring: 185 100% 50%;
+    --radius: 0.5rem;
+    --chart-1: 185 100% 50%;
+    --chart-2: 280 100% 60%;
+    --chart-3: 45 100% 50%;
+    --chart-4: 120 100% 50%;
+    --chart-5: 0 100% 60%;
+    --glow: 185 100% 50%;
+    --electric: 185 100% 50%;
+    --neon-purple: 280 100% 60%;
+    --gold: 45 100% 50%;
+  }
+
+  .dark {
+    --background: 220 20% 4%;
+    --foreground: 180 100% 98%;
+    --card: 220 20% 8%;
+    --card-foreground: 180 100% 98%;
+    --popover: 220 20% 8%;
+    --popover-foreground: 180 100% 98%;
+    --primary: 185 100% 50%;
+    --primary-foreground: 220 20% 4%;
+    --secondary: 220 20% 12%;
+    --secondary-foreground: 180 100% 98%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 180 20% 60%;
+    --accent: 280 100% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 185 50% 20%;
+    --input: 185 30% 15%;
+    --ring: 185 100% 50%;
+    --chart-1: 185 100% 50%;
+    --chart-2: 280 100% 60%;
+    --chart-3: 45 100% 50%;
+    --chart-4: 120 100% 50%;
+    --chart-5: 0 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter Variable", "Inter", system-ui, sans-serif;
+  }
+
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px hsl(var(--electric)), 0 0 20px hsl(var(--electric)), 0 0 40px hsl(var(--electric));
+  }
+
+  .text-glow-purple {
+    text-shadow: 0 0 10px hsl(var(--neon-purple)), 0 0 20px hsl(var(--neon-purple)), 0 0 40px hsl(var(--neon-purple));
+  }
+
+  .box-glow {
+    box-shadow: 0 0 20px hsl(var(--electric) / 0.3), 0 0 40px hsl(var(--electric) / 0.2), inset 0 0 20px hsl(var(--electric) / 0.1);
+  }
+
+  .box-glow-purple {
+    box-shadow: 0 0 20px hsl(var(--neon-purple) / 0.3), 0 0 40px hsl(var(--neon-purple) / 0.2);
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      filter: brightness(1);
+    }
+    50% {
+      opacity: 0.8;
+      filter: brightness(1.2);
+    }
+  }
+
+  .bg-grid {
+    background-image: 
+      linear-gradient(hsl(var(--electric) / 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--electric) / 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .bg-circuit {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--electric) / 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, hsl(var(--neon-purple) / 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}
