@@ -69,19 +69,7 @@ I enjoy turning practical ideas into working prototypes using artificial intelli
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=matplotlib&logoColor=white)
 
 ---
-# 📊 GitHub Stats
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Akash4075&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&count_private=true" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Akash4075&layout=compact&theme=radical&hide_border=true&langs_count=8" />
-</p>
-
-## 🚀 Featured Projects
-
-> Explore my pinned repositories below for projects in AI, IoT, ESP32, embedded systems, robotics and automation.
 
 ## 🏆 GitHub Trophies
 
