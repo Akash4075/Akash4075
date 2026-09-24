@@ -91,11 +91,9 @@ I enjoy turning practical ideas into working prototypes using artificial intelli
 
 ---
 
-## 🔝 Top Contributed Repositories
+## 🚀 Featured Projects
 
-<p align="center">
-  <img src="https://github-contributor-stats.vercel.app/api?username=Akash4075&limit=5&theme=dark&combine_all_yearly_contributions=true" alt="Top contributed repositories">
-</p>
+> Check out my pinned repositories below to explore my best work in AI, IoT, Embedded Systems, Robotics and Automation.
 
 ## ✍️ Random Developer Quote
 
