@@ -70,20 +70,34 @@ I enjoy turning practical ideas into working prototypes using artificial intelli
 
 ---
 
+---
+
 ## 📊 GitHub Statistics
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Akash4075&show_icons=true&theme=tokyonight&hide_border=true" alt="Akash4075's GitHub statistics" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Akash4075&layout=compact&theme=tokyonight&hide_border=true" alt="Akash4075's top languages" />
+  <img src="https://img.shields.io/badge/Top%20Language-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="Top Language: TypeScript">
+  <img src="https://img.shields.io/badge/Public%20Repositories-18-181717?style=for-the-badge&logo=github&logoColor=white" alt="Public Repositories: 18">
+  <img src="https://img.shields.io/badge/TypeScript%20Repositories-9-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Repositories: 9">
+  <img src="https://img.shields.io/badge/Python%20Repositories-1-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python Repositories: 1">
+</p>
+
+<p align="center">
+  <a href="https://github.com/Akash4075">
+    <img src="https://img.shields.io/badge/GitHub-Akash4075-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile">
+  </a>
+  <img src="https://img.shields.io/github/followers/Akash4075?style=for-the-badge&logo=github&label=Followers" alt="GitHub Followers">
+  <img src="https://img.shields.io/github/stars/Akash4075?style=for-the-badge&logo=github&label=Total%20Stars" alt="Total Stars">
 </p>
 
 ### 🧑‍💻 Profile Highlights
 
 - 🚀 Top language: **TypeScript**
 - 📦 Public repositories: **18**
-- ⭐ Total stars: **2**
-- 🍴 Total forks: **0**
-- 🛠️ Focused on web development, AI projects, and agriculture technology
+- 💻 TypeScript repositories: **9**
+- 🐍 Python repositories: **1**
+- 🔗 [View my GitHub profile](https://github.com/Akash4075)
+
+---
 
 ## 🏆 GitHub Trophies
 
