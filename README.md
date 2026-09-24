@@ -91,12 +91,10 @@ I enjoy turning practical ideas into working prototypes using artificial intelli
 
 ---
 
-## 🔝 Top Contributions
+## 🔝 Top Contributed Repositories
 
 <p align="center">
-  <a href="https://github.com/Akash4075">
-    <img src="https://github-readme-activity-graph.vercel.app/graph?username=Akash4075&theme=tokyo-night&hide_border=true&area=true" width="100%"/>
-  </a>
+  <img src="https://github-contributor-stats.vercel.app/api?username=Akash4075&limit=5&theme=dark&combine_all_yearly_contributions=true" alt="Top contributed repositories">
 </p>
 
 ## ✍️ Random Developer Quote
