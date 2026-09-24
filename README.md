@@ -69,19 +69,27 @@ I enjoy turning practical ideas into working prototypes using artificial intelli
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=matplotlib&logoColor=white)
 
 ---
-
 ## 📊 GitHub Statistics
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Akash4075&show_icons=true&theme=dark&hide_border=true&include_all_commits=true&count_private=true" alt="Akash's GitHub statistics" width="49%">
-  <img src="https://streak-stats.demolab.com/?user=Akash4075&theme=dark&hide_border=true" alt="Akash's GitHub streak" width="49%">
+  <img
+    src="https://github-readme-stats.vercel.app/api?username=Akash4075&show_icons=true&theme=dark&hide_border=true&include_all_commits=true&count_private=true&v=20260924"
+    alt="Akash's GitHub statistics"
+    width="49%"
+  />
+  <img
+    src="https://streak-stats.demolab.com?user=Akash4075&theme=dark&hide_border=true&v=20260924"
+    alt="Akash's GitHub contribution streak"
+    width="49%"
+  />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Akash4075&theme=dark&hide_border=true&layout=compact&langs_count=8" alt="Akash's top languages">
+  <img
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=Akash4075&layout=compact&theme=dark&hide_border=true&langs_count=8&v=20260924"
+    alt="Akash's most-used languages"
+  />
 </p>
-
----
 
 ## 🏆 GitHub Trophies
 
