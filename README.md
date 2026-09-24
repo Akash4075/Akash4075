@@ -69,7 +69,27 @@ I enjoy turning practical ideas into working prototypes using artificial intelli
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=matplotlib&logoColor=white)
 
 ---
+# 📊 GitHub Statistics
 
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=Akash4075&show_icons=true&theme=tokyonight&hide_border=true" alt="Akash's GitHub Statistics" />
+</p>
+
+## 💻 Top Languages
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Akash4075&layout=compact&theme=tokyonight&hide_border=true" alt="Akash's Top Languages" />
+</p>
+
+### 🧑‍💻 Profile Highlights
+
+- 🚀 Top language: **TypeScript**
+- 📦 Public repositories: **18**
+- 💻 TypeScript repositories: **9**
+- 🐍 Python repositories: **1**
+- ⭐ GitHub profile stars: **4**
+- 🍴 Followers: **3**
+- 🔗 [View my GitHub profile](https://github.com/Akash4075)
 
 ## 🏆 GitHub Trophies
 
