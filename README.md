@@ -2,12 +2,12 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F2027,50:203A43,100:2C5364&height=230&section=header&text=AKASH%20A%20P&fontSize=58&fontColor=FFFFFF&fontAlignY=36&desc=AI%20%7C%20IoT%20%7C%20Embedded%20Systems%20%7C%20Robotics&descAlignY=58&descSize=17&animation=fadeIn" width="100%" alt="Animated profile banner"/>
 
-<img src="WhatsApp Image 2026-10-09 at 11.03.03 PM.jpeg" width="300" alt="Akash A P profile photo"/>
+<img src="./WhatsApp%20Image%202026-10-09%20at%2011.03.03%20PM.jpeg" width="165" alt="Akash A P profile photo"/>
 
 <br/>
 
 <h2 align="center">👋 Hii, I am Akash A P!</h2>
-<p align="center">🎓 ECE Undergraduate | Class of 2027</p>font=Fira+Code&weight=600&size=22&pause=1000&color=00D9FF&center=true&vCenter=true&width=760&lines=Hi%2C+I'm+Akash+A+P+%F0%9F%91%8B;ECE+Undergraduate+%7C+Class+of+2027;Building+AI+%26+IoT+Solutions;Embedded+Systems+%7C+Automation+%7C+Robotics;Innovate.+Build.+Keep+Learning." alt="Animated introduction"/>
+<p align="center"><strong>🎓 ECE Undergraduate · Class of 2027</strong></p>
 
 <a href="https://github.com/Akash4075">
   <img src="https://komarev.com/ghpvc/?username=Akash4075&label=PROFILE%20VIEWS&color=00D9FF&style=for-the-badge" alt="Profile views"/>
@@ -26,8 +26,7 @@
 
 ---
 
-
-## 👨‍💻 About Me
+## 🧑‍💻 About Me
 
 ```python
 class Akash:
@@ -45,20 +44,42 @@ class Akash:
             "Internet of Things (IoT)",
             "Embedded Systems",
             "Robotics",
-            "Computer Vision"
+            "Computer Vision",
+            "Automation"
+        ]
+
+        self.achievements = [
+            "SIH Internal Hackathon 2026 - First Prize",
+            "₹5 Lakh NAIN Project Funding - Government of Karnataka"
         ]
 
     def say_hello(self):
-        print("👋 Hi, I am Akash A P!")
-        
+        print("👋 Hii, I am Akash A P!")
+        print("🚀 Building technology to solve real-world problems.")
+
+me = Akash()
+me.say_hello()
 ```
 
-### 🌐 Connect With Me
+### 💡 Interests
 
-[![GitHub](https://img.shields.io/badge/GitHub-Akash4075-181717?style=for-the-badge&logo=github)](https://github.com/Akash4075)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/akashap)
-[![Email](https://img.shields.io/badge/Email-Contact_Me-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:akashapuser@gmail.com)
+<p>
+  <img src="https://img.shields.io/badge/Artificial_Intelligence-7B61FF?style=flat-square&logo=openai&logoColor=white" alt="Artificial Intelligence"/>
+  <img src="https://img.shields.io/badge/Machine_Learning-FF6F00?style=flat-square&logo=tensorflow&logoColor=white" alt="Machine Learning"/>
+  <img src="https://img.shields.io/badge/Internet_of_Things-00979D?style=flat-square&logo=arduino&logoColor=white" alt="Internet of Things"/>
+  <img src="https://img.shields.io/badge/Embedded_Systems-2E8B57?style=flat-square" alt="Embedded Systems"/>
+  <img src="https://img.shields.io/badge/Robotics-203A43?style=flat-square" alt="Robotics"/>
+  <img src="https://img.shields.io/badge/Computer_Vision-5C3EE8?style=flat-square&logo=opencv&logoColor=white" alt="Computer Vision"/>
+  <img src="https://img.shields.io/badge/Automation-007ACC?style=flat-square" alt="Automation"/>
+</p>
 
+### 🔗 Contact
+
+- **GitHub:** [@Akash4075](https://github.com/Akash4075)
+- **LinkedIn:** [akashap](https://linkedin.com/in/akashap)
+- **Email:** [akashapuser@gmail.com](mailto:akashapuser@gmail.com)
+
+---
 
 <!-- ═══════════════ TECH STACK ═══════════════ -->
 
