@@ -6,7 +6,8 @@
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=00D9FF&center=true&vCenter=true&width=760&lines=Hi%2C+I'm+Akash+A+P+%F0%9F%91%8B;ECE+Undergraduate+%7C+Class+of+2027;Building+AI+%26+IoT+Solutions;Embedded+Systems+%7C+Automation+%7C+Robotics;Innovate.+Build.+Keep+Learning." alt="Animated introduction"/>
+<h2 align="center">👋 Hii, I am Akash A P!</h2>
+<p align="center">🎓 ECE Undergraduate | Class of 2027</p>font=Fira+Code&weight=600&size=22&pause=1000&color=00D9FF&center=true&vCenter=true&width=760&lines=Hi%2C+I'm+Akash+A+P+%F0%9F%91%8B;ECE+Undergraduate+%7C+Class+of+2027;Building+AI+%26+IoT+Solutions;Embedded+Systems+%7C+Automation+%7C+Robotics;Innovate.+Build.+Keep+Learning." alt="Animated introduction"/>
 
 <a href="https://github.com/Akash4075">
   <img src="https://komarev.com/ghpvc/?username=Akash4075&label=PROFILE%20VIEWS&color=00D9FF&style=for-the-badge" alt="Profile views"/>
