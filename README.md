@@ -25,21 +25,39 @@
 
 ---
 
+
 ## 👨‍💻 About Me
 
-Hi! I'm **Akash A P**, an Electronics and Communication Engineering undergraduate at **BGS Institute of Technology (BGSIT), Adichunchanagiri University**, Karnataka, India.
+```python
+class Akash:
+    def __init__(self):
+        self.name = "Akash A P"
+        self.education = "B.E. Electronics & Communication Engineering"
+        self.college = "BGS Institute of Technology (BGSIT)"
+        self.university = "Adichunchanagiri University"
+        self.location = "Mandya, Karnataka, India"
+        self.graduation_year = 2027
 
-I'm interested in building practical technology at the intersection of **Artificial Intelligence, IoT, embedded systems, and automation**. I enjoy turning ideas into working prototypes, collaborating with teams, and learning by building.
+        self.interests = [
+            "Artificial Intelligence",
+            "Machine Learning",
+            "Internet of Things (IoT)",
+            "Embedded Systems",
+            "Robotics",
+            "Computer Vision"
+        ]
 
-- 🎓 **B.E. in Electronics & Communication Engineering** — 2023–2027
-- 🤖 Exploring AI, computer vision, intelligent automation, and robotics
-- 🌱 Building IoT solutions for agriculture and environmental monitoring
-- 🏆 **SIH Internal Hackathon 2026 — First Prize**
-- 🇮🇳 Project received **₹5 lakh funding through NAIN, Government of Karnataka**
-- 🧩 Interested in engineering projects that address real-world problems
-- 💬 Always open to learning, collaboration, and innovative project ideas
+    def say_hello(self):
+        print("👋 Hi, I am Akash A P!")
+        
+```
 
----
+### 🌐 Connect With Me
+
+[![GitHub](https://img.shields.io/badge/GitHub-Akash4075-181717?style=for-the-badge&logo=github)](https://github.com/Akash4075)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/akashap)
+[![Email](https://img.shields.io/badge/Email-Contact_Me-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:akashapuser@gmail.com)
+
 
 <!-- ═══════════════ TECH STACK ═══════════════ -->
 
