@@ -18,14 +18,15 @@
 
 <p>
   
+
 ### 🌐 Connect With Me
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Tech_Innovator-00D9FF?style=for-the-badge&logo=googlechrome&logoColor=white)](https://share.google/HUeMLnZPbAhnqyqSw)
 [![Instagram](https://img.shields.io/badge/Instagram-Follow_Me-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/akashh__ap?vrfl=N3hsM3FzcnZzc2l0)
+[![YouTube](https://img.shields.io/badge/YouTube-Smartify_Official-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@smartifyofficial-enriching?si=_jXPexg-VxOkmfSD)
 [![GitHub](https://img.shields.io/badge/GitHub-Akash4075-181717?style=for-the-badge&logo=github)](https://github.com/Akash4075)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/akash-ap-1262b235a)
 
-</p>
 
 </div>
 
