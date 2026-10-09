@@ -2,7 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F2027,50:203A43,100:2C5364&height=230&section=header&text=AKASH%20A%20P&fontSize=58&fontColor=FFFFFF&fontAlignY=36&desc=AI%20%7C%20IoT%20%7C%20Embedded%20Systems%20%7C%20Robotics&descAlignY=58&descSize=17&animation=fadeIn" width="100%" alt="Animated profile banner"/>
 
-<img src="https://github.com/Akash4075.png?size=320" width="165" alt="Akash A P profile photo"/>
+<img src="WhatsApp Image 2026-10-09 at 11.03.03 PM.jpeg" width="300" alt="Akash A P profile photo"/>
 
 <br/>
 
