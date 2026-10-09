@@ -17,11 +17,14 @@
 </a>
 
 <p>
-  <a href="https://github.com/Akash4075"><img src="https://img.shields.io/badge/GitHub-Akash4075-181717?style=flat-square&logo=github" alt="GitHub"/></a>
-  <a href="https://www.linkedin.com/in/akash-ap-1262b235a">
-  <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin" alt="LinkedIn"/>
-</a>
-  <a href="mailto:akashapuser@gmail.com"><img src="https://img.shields.io/badge/Email-Contact-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"/></a>
+  
+### 🌐 Connect With Me
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-Tech_Innovator-00D9FF?style=for-the-badge&logo=googlechrome&logoColor=white)](https://share.google/HUeMLnZPbAhnqyqSw)
+[![Instagram](https://img.shields.io/badge/Instagram-Follow_Me-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/akashh__ap?vrfl=N3hsM3FzcnZzc2l0)
+[![GitHub](https://img.shields.io/badge/GitHub-Akash4075-181717?style=for-the-badge&logo=github)](https://github.com/Akash4075)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/akash-ap-1262b235a)
+
 </p>
 
 </div>
