@@ -18,7 +18,7 @@
 
 <p>
   <a href="https://github.com/Akash4075"><img src="https://img.shields.io/badge/GitHub-Akash4075-181717?style=flat-square&logo=github" alt="GitHub"/></a>
-  <a href="https://www.linkedin.com/in/akashap/">
+  <a href="https://www.linkedin.com/in/akash-ap-1262b235a">
   <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin" alt="LinkedIn"/>
 </a>
   <a href="mailto:akashapuser@gmail.com"><img src="https://img.shields.io/badge/Email-Contact-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"/></a>
@@ -330,6 +330,7 @@ Shortlisted · Vivartan Incubation Centre, Mysuru
 
 ---
 
+
 ## 📈 GitHub Analytics
 
 <div align="center">
@@ -345,13 +346,10 @@ Shortlisted · Vivartan Incubation Centre, Mysuru
 
 <img src="https://streak-stats.demolab.com?user=Akash4075&theme=tokyonight&hide_border=true" alt="GitHub contribution streak"/>
 
-<br/>
-
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=Akash4075&theme=tokyo-night&hide_border=true&area=true" width="98%" alt="GitHub contribution activity graph"/>
-
 </div>
 
 ---
+
 
 ## 🤝 Leadership & Community
 
